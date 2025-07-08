@@ -15,10 +15,11 @@ require '../CRUDphp/classes/conexao.php';
   <div class="d-flex justify-content-center align-items-center vh-100">
     <div class="col-10 col-md-6 col-lg-4">
       <form>
-        <h2 class="text-center mb-4">Nome do sistema</h2> <div class="row mb-3">
-          <label for="inputEmail3" class="col-sm-12 col-form-label">Usuário</label>
+        <h2 class="text-center mb-4">Nome do sistema</h2> 
+        <div class="row mb-3">
+          <label for="nome" class="col-sm-12 col-form-label">Usuário</label>
           <div class="col-sm-12">
-            <input type="email" class="form-control" id="inputEmail3" placeholder="seu-email@exemplo.com">
+            <input type="yext" class="form-control" placeholder="seu nome">
           </div>
         </div>
         <div class="row mb-3">
