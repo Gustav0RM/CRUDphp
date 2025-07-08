@@ -4,6 +4,10 @@
   {
   background-color: #15142b;
   }
+#navegacao
+  {
+  background-color: #15142b;
+  }
 
 form 
   {
@@ -23,4 +27,13 @@ button[type=submit]
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  }
+#card-header 
+  {
+  color: white;
+  background-color: rgba(142, 131, 214, 0.436);
+  }
+#cards 
+  {
+  background-color: #232246;
   }
