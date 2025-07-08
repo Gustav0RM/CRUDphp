@@ -41,7 +41,7 @@
       <?php
       if (!$tipo)
         { 
-        include('../../acoes/mensagem.php'); ?>
+         include('../../acoes/mensagem.php'); //não funciona ?>
         <div class="container mt-4 ms-0">
           <a class="text-decoration-none text-black" href="../sistema/usuarios.php?tipo=cad"> 
             <i class="bi bi-person-add fs-5 text-success"></i>
