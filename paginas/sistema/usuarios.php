@@ -8,8 +8,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"> 
   <?php
   session_start(); 
+  include_once('../../classes/conexao.php');
   $tipo = isset($_GET["tipo"]) ? strtolower($_GET["tipo"]) : null;
-  $titulo = ($tipo === "cad" ? "Cadastrar" : ($tipo === "alt" ? "Editar" : "Buscar")) . " Usuário"; ?>
+  $titulo = ($tipo === "cad" ? "Cadastrar" : ($tipo === "alt" ? "Editar" : "Buscar")) . " Usuário";
+  $cod = isset($_GET["cod"]) ? addslashes($_GET["cod"]) : null ?>
   <title><?=$titulo?></title>
   </head>
     <body>
@@ -42,7 +44,7 @@
       <?php
       if (!$tipo)
         { 
-         include('../../acoes/mensagem.php'); ?>
+        include('../../acoes/mensagem.php'); ?>
         <div class="container mt-4 ms-0">
           <a class="text-decoration-none text-black" href="../sistema/usuarios.php?tipo=cad"> 
             <i class="bi bi-person-add fs-5 text-success"></i>
@@ -64,22 +66,30 @@
                         <th>Nome</th>
                         <th>Senha</th>
                         <th>Excluir</th>
-                      </tr>
-                      <tr>
-                        <td class="text-center">
-                          <a class="text-decoration-none" href="../sistema/usuarios.php?tipo=alt">
-                            <i class="bi bi-person-gear text-black fs-5"></i>
-                          </a>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="text-center">
-                          <a href="#" class="text-decoration-none">
-                            <i class="bi bi-person-x text-danger fs-5"></i>
-                          </a>
-                        </td>
-                      </tr>
+                      </tr><?php
+                      $sql_usuario = "SELECT * FROM tb_usuario";
+                      $retorno_consulta = mysqli_query($conexao, $sql_usuario);
+                      if (mysqli_num_rows($retorno_consulta) > 0)
+                        {
+                        while ($dados_usuario = mysqli_fetch_array($retorno_consulta))
+                          { ?>
+                          <tr>
+                          <td class="text-center">
+                            <a class="text-decoration-none" href="../sistema/usuarios.php?tipo=alt&cod=<?=$dados_usuario['id_usu']?>">
+                              <i class="bi bi-person-gear text-warning fs-5"></i>
+                            </a>
+                          </td>
+                          <td><?=$dados_usuario['id_usu']?></td>
+                          <td><?=$dados_usuario['nome_usu']?></td>
+                          <td>?</td>
+                          <td class="text-center">
+                            <a href="#" class="text-decoration-none">
+                              <i class="bi bi-person-x text-danger fs-5"></i>
+                            </a>
+                          </td>
+                        </tr> <?php
+                          }
+                        } //if row 73 ?>
                     </thead>
                   </table>
                 </div>
@@ -125,10 +135,6 @@
           </div>
         </div>
       </div>
-
-
-
-
 
       <?php
       }?>
