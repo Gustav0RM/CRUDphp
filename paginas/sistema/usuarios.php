@@ -9,9 +9,9 @@
   <?php
   session_start(); 
   include_once('../../classes/conexao.php');
-  $tipo = isset($_GET["tipo"]) ? strtolower($_GET["tipo"]) : null;
+  $tipo = isset($_GET['tipo']) ? strtolower($_GET['tipo']) : null;
   $titulo = ($tipo === "cad" ? "Cadastrar" : ($tipo === "alt" ? "Editar" : "Buscar")) . " Usuário";
-  $cod = isset($_GET["cod"]) ? addslashes($_GET["cod"]) : null ?>
+  $cod = isset($_GET['cod']) ? addslashes($_GET['cod']) : null ?>
   <title><?=$titulo?></title>
   </head>
     <body>
@@ -99,7 +99,11 @@
         </div> <?php
     } 
     elseif ($tipo === "alt" || $tipo === "cad")
-      { ?>      
+      {
+      $sql_usuario_alt = "SELECT * FROM tb_usuario WHERE id_usu = '$cod'";
+      $retorno_consulta_alt = mysqli_query($conexao, $sql_usuario_alt);
+      $dados_usuario_alt = mysqli_fetch_array($retorno_consulta_alt); ?> 
+           
       <div class="container mt-4 ms-0 col-4">
         <a class="text-decoration-none text-black" href="../sistema/usuarios.php"> 
             <i class="bi bi-reply fs-5 text-danger"></i>
@@ -116,13 +120,13 @@
                   <div class="row mb-2">
                     <label for="nome" class="col-sm-auto col-form-label text-black">Nome</label>
                     <div class="col-sm-10">
-                      <input type="text" name="nome" class="form-control" placeholder="Seu nome" aria-label="Seu nome">
+                      <input type="text" name="nome" class="form-control" value="<?=$dados_usuario_alt['nome_usu']?>"  aria-label="Seu nome">
                     </div>
                   </div>
                   <div class="row mb-2">
                     <label for="senha" class="col-sm-auto col-form-label text-black">Senha</label>
                     <div class="col-sm-10">
-                      <input type="password" name="senha" class="form-control" placeholder="Sua senha" aria-label="Sua senha">
+                      <input type="password" name="senha" class="form-control" value="<?=$dados_usuario_alt['senha_usu']?>"  aria-label="Sua senha">
                   </div>
                   </div>
                   <div class="col-4">

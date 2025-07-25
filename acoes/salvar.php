@@ -4,8 +4,8 @@ require '../classes/conexao.php';
 
 if (isset($_POST['cadbd']))
   {
-  $nome_limpo = isset($_POST['nome']) ? trim($_POST['nome']) : '';
-  $senha_limpa = isset($_POST['senha']) ? trim($_POST['senha']) : '';
+  $nome_limpo = isset($_POST['nome']) ? trim($_POST['nome']) : ''; //retira espaços dos campos para salvar
+  $senha_limpa = isset($_POST['senha']) ? trim($_POST['senha']) : ''; //retira espaços dos campos para salvar
   $senha = '';
   $nome = '';
 
@@ -18,7 +18,6 @@ if (isset($_POST['cadbd']))
   
   $nome = mysqli_escape_string($conexao, $nome_limpo); 
   $senha = password_hash($senha_limpa, PASSWORD_DEFAULT);
-
 
   $sql = "INSERT INTO tb_usuario (nome_usu,senha_usu) VALUES ('$nome', '$senha')";
 
