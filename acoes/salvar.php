@@ -18,9 +18,7 @@ if (isset($_POST['cadbd']))
   
   $nome = mysqli_escape_string($conexao, $nome_limpo); 
   $senha = password_hash($senha_limpa, PASSWORD_DEFAULT);
-
   $sql = "INSERT INTO tb_usuario (nome_usu,senha_usu) VALUES ('$nome', '$senha')";
-
   mysqli_query($conexao, $sql);
 
   if (mysqli_affected_rows($conexao) > 0 ) 
@@ -36,6 +34,37 @@ if (isset($_POST['cadbd']))
     exit;
     }
 
+  }
+elseif (isset($_POST['altbd']))
+  {
+  $cod = addslashes($_POST['cod']);
+  $nome_limpo = trim($_POST['nome']);
+  $senha_limpa = trim($_POST['senha']);
+
+  if (empty($nome_limpo) || empty($senha_limpa))
+    {
+    $_SESSION['mensagem'] = "Alteração não realizada. Os campos são obrigatórios";
+    header('Location: ../paginas/sistema/usuarios.php?tipo=');
+    exit;
+    }
+  
+  $nome = mysqli_escape_string($conexao, $nome_limpo);
+  $senha = password_hash($senha_limpa, PASSWORD_DEFAULT);
+  $consulta = "UPDATE tb_usuario SET nome_usu = '$nome', senha_usu = '$senha' WHERE id_usu = '$cod'";
+  mysqli_query($conexao, $consulta);
+  
+  if (mysqli_affected_rows($conexao) > 0 ) 
+    {
+    $_SESSION['mensagem'] = 'Usuário alterado com sucesso';
+    header('Location: ../paginas/sistema/usuarios.php');
+    exit;
+    } 
+  else 
+    {
+    $_SESSION['mensagem'] = 'erro de execução alt';
+    header('Location: ../paginas/sistema/usuarios.php');
+    exit;
+    }
   }
 
 ?>
