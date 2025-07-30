@@ -37,7 +37,7 @@ if (isset($_POST['cadbd']))
   }
 elseif (isset($_POST['altbd']))
   {
-  $cod = addslashes($_POST['cod']);
+  $cod = addslashes($_GET['cod']);
   $nome_limpo = trim($_POST['nome']);
   $senha_limpa = trim($_POST['senha']);
 

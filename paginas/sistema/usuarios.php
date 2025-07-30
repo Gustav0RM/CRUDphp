@@ -116,9 +116,9 @@
                 <h2><?=$titulo?></h2>
               </div>
               <div class="card-body">
-                <form action="../../acoes/salvar.php" method="POST" class="bg-light">
+                <form action="../../acoes/salvar.php?cod=<?=$cod?>" method="POST" class="bg-light">
                   <div class="row mb-2">
-                    <input type="hidden" name="cod" value="<?=$cod?>">
+                    
                     <label for="nome" class="col-sm-auto col-form-label text-black">Nome</label>
                     <div class="col-sm-10">
                       <input type="text" name="nome" class="form-control" value="<?=$dados_usuario_alt['nome_usu']?>"  aria-label="Seu nome">
