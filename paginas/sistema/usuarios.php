@@ -115,26 +115,30 @@
                     
                     <label for="nome" class="col-sm-auto col-form-label text-black">Nome</label>
                     <div class="col-sm-10">
-                      <input type="text" name="nome" class="form-control" value="<?=$dados_usuario_alt['nome_usu']?>"  aria-label="Seu nome">
+                      <input type="text" name="nome" class="form-control" value="<?= isset($dados_usuario_alt['nome_usu']) ? $dados_usuario_alt['nome_usu'] : ''?>"  aria-label="Seu nome">
                     </div>
                   </div>
                   <div class="row mb-5">
                     <label for="senha" class="col-sm-auto col-form-label text-black">Senha</label>
                     <div class="col-sm-10">
-                      <input type="password" name="senha" class="form-control" value="<?=$dados_usuario_alt['senha_usu']?>"  aria-label="Sua senha">
+                      <input type="password" name="senha" class="form-control" value="<?= isset($dados_usuario_alt['senha_usu']) ? $dados_usuario_alt['senha_usu'] : ''?>"  aria-label="Sua senha">
                   </div>
                   </div>
                   <div class="row">
                     <div class="col">
                       <button class="col-2" type="submit" name="<?=($tipo === "cad" ? 'cadbd' : 'altbd')?>"
                       ><?=($tipo === "cad" ? 'Cadastrar' : 'Alterar')?></button>
-                    </div>
-                  
-                    <div class="col">
-                      <form action="../../acoes/salvar.php?cod=<?=$cod?>" method="POST">
-                        <button class="bg-danger col-2" type="submit" onclick="return confirm('Deseja excluir este usuário?')"  name="excluir">Excluir</button>
+                    </div><?php
+
+                    if ($tipo === 'alt')
+                      { ?>
+                      <div class="col">
+                        <form action="../../acoes/salvar.php?cod=<?=$cod?>" method="POST">
+                          <button class="bg-danger col-2" type="submit" onclick="return confirm('Deseja excluir este usuário?')"  name="excluir">Excluir</button>
                       </form>
-                    </div>
+                    </div> <?php
+                      } ?>
+                    
                   </div>
                 </form>
               </div>
