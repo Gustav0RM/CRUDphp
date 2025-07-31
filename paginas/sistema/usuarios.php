@@ -65,7 +65,6 @@
                         <th>ID</th>
                         <th>Nome</th>
                         <th>Senha</th>
-                        <th>Excluir</th>
                       </tr><?php
                       $sql_usuario = "SELECT * FROM tb_usuario";
                       $retorno_consulta = mysqli_query($conexao, $sql_usuario);
@@ -82,11 +81,6 @@
                           <td><?=$dados_usuario['id_usu']?></td>
                           <td><?=$dados_usuario['nome_usu']?></td>
                           <td>?</td>
-                          <td class="text-center">
-                            <a href="#" class="text-decoration-none">
-                              <i class="bi bi-person-x text-danger fs-5"></i>
-                            </a>
-                          </td>
                         </tr> <?php
                           }
                         } //if row 73 ?>
@@ -124,15 +118,23 @@
                       <input type="text" name="nome" class="form-control" value="<?=$dados_usuario_alt['nome_usu']?>"  aria-label="Seu nome">
                     </div>
                   </div>
-                  <div class="row mb-2">
+                  <div class="row mb-5">
                     <label for="senha" class="col-sm-auto col-form-label text-black">Senha</label>
                     <div class="col-sm-10">
                       <input type="password" name="senha" class="form-control" value="<?=$dados_usuario_alt['senha_usu']?>"  aria-label="Sua senha">
                   </div>
                   </div>
-                  <div class="col-4">
-                    <button type="submit" name="<?=($tipo === "cad" ? 'cadbd' : 'altbd')?>"
-                    ><?=($tipo === "cad" ? 'Cadastrar' : 'Alterar')?></button>
+                  <div class="row">
+                    <div class="col">
+                      <button class="col-2" type="submit" name="<?=($tipo === "cad" ? 'cadbd' : 'altbd')?>"
+                      ><?=($tipo === "cad" ? 'Cadastrar' : 'Alterar')?></button>
+                    </div>
+                  
+                    <div class="col">
+                      <form action="../../acoes/salvar.php?cod=<?=$cod?>" method="POST">
+                        <button class="bg-danger col-2" type="submit" onclick="return confirm('Deseja excluir este usuário?')"  name="excluir">Excluir</button>
+                      </form>
+                    </div>
                   </div>
                 </form>
               </div>

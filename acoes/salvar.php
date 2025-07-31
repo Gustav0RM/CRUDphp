@@ -66,5 +66,24 @@ elseif (isset($_POST['altbd']))
     exit;
     }
   }
+elseif (isset($_POST['excluir']))
+    {
+    $cod = addslashes($_GET['cod']);
+    $consulta_excluir = "DELETE FROM tb_usuario WHERE id_usu = '$cod'";
+    mysqli_query($conexao, $consulta_excluir);
+
+    if (mysqli_affected_rows($conexao) > 0 ) 
+      {
+      $_SESSION['mensagem'] = 'Usuário excluido com sucesso';
+      header('Location: ../paginas/sistema/usuarios.php');
+      exit;
+      } 
+    else 
+      {
+      $_SESSION['mensagem'] = 'erro de execução exclusao';
+      header('Location: ../paginas/sistema/usuarios.php');
+      exit;
+      }
+    }
 
 ?>
