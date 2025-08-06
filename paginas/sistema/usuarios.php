@@ -45,7 +45,8 @@
       if (!$tipo)
         { 
         include('../../acoes/mensagem.php'); ?>
-        <div class="container mt-4 ms-0">
+        <label class="text-end col-md-12"  for="logado"><?=$_SESSION['usuario_nome']?></label>
+        <div class="container mt-4">
           <a class="text-decoration-none text-black" href="../sistema/usuarios.php?tipo=cad"> 
             <i class="bi bi-person-add fs-5 text-success"></i>
             Cadastrar usuário
@@ -96,8 +97,9 @@
       {
       $sql_usuario_alt = "SELECT * FROM tb_usuario WHERE id_usu = '$cod'";
       $retorno_consulta_alt = mysqli_query($conexao, $sql_usuario_alt);
-      $dados_usuario_alt = mysqli_fetch_array($retorno_consulta_alt); ?> 
-           
+      $dados_usuario_alt = mysqli_fetch_array($retorno_consulta_alt); ?>
+       
+      <label class="text-end col-md-12"  for="logado"><?=$_SESSION['usuario_nome']?></label>     
       <div class="container mt-4 ms-0 col-4">
         <a class="text-decoration-none text-black" href="../sistema/usuarios.php"> 
             <i class="bi bi-reply fs-5 text-danger"></i>

@@ -6,8 +6,6 @@ if (isset($_POST['cadbd']))
   {
   $nome_limpo = isset($_POST['nome']) ? trim($_POST['nome']) : ''; //retira espaços dos campos para salvar
   $senha_limpa = isset($_POST['senha']) ? trim($_POST['senha']) : ''; //retira espaços dos campos para salvar
-  $senha = '';
-  $nome = '';
 
   if (empty($nome_limpo) || empty($senha_limpa))
     {
@@ -17,7 +15,7 @@ if (isset($_POST['cadbd']))
     }
   
   $nome = mysqli_escape_string($conexao, $nome_limpo); 
-  $senha = password_hash($senha_limpa, PASSWORD_DEFAULT);
+  $senha = mysqli_escape_string($conexao, $senha_limpa);
   $sql = "INSERT INTO tb_usuario (nome_usu,senha_usu) VALUES ('$nome', '$senha')";
   mysqli_query($conexao, $sql);
 
@@ -49,7 +47,7 @@ elseif (isset($_POST['altbd']))
     }
   
   $nome = mysqli_escape_string($conexao, $nome_limpo);
-  $senha = password_hash($senha_limpa, PASSWORD_DEFAULT);
+  $senha = password_hash($senha_limpa, PASSWORD_DEFAULT);//verificar se vou utilizar hash ou não, sistema de validação de login não esta usando
   $consulta = "UPDATE tb_usuario SET nome_usu = '$nome', senha_usu = '$senha' WHERE id_usu = '$cod'";
   mysqli_query($conexao, $consulta);
   
