@@ -9,25 +9,26 @@ if (isset($_POST['cadbd']))
 
   if (empty($nome_limpo) || empty($senha_limpa))
     {
-    $_SESSION['mensagem'] = "CADASTRO NAO REALIZADO. Os campos nome e senha são obrigatórios";
+    $_SESSION['mensagem_alerta'] = "CADASTRO NAO REALIZADO. Os campos nome e senha são obrigatórios";
     header('Location: ../paginas/sistema/usuarios.php?tipo=');
     exit;
     }
   
   $nome = mysqli_escape_string($conexao, $nome_limpo); 
-  $senha = mysqli_escape_string($conexao, $senha_limpa);
+  $senha = password_hash($senha_limpa, PASSWORD_DEFAULT);
+
   $sql = "INSERT INTO tb_usuario (nome_usu,senha_usu) VALUES ('$nome', '$senha')";
   mysqli_query($conexao, $sql);
 
   if (mysqli_affected_rows($conexao) > 0 ) 
     {
-    $_SESSION['mensagem'] = 'Usuário criado com sucesso';
+    $_SESSION['mensagem_sucesso'] = 'Usuário criado com sucesso';
     header('Location: ../paginas/sistema/usuarios.php');
     exit;
     } 
   else 
     {
-    $_SESSION['mensagem'] = 'erro de execução';
+    $_SESSION['mensagem_erro'] = 'erro de execução';
     header('Location: ../paginas/sistema/usuarios.php');
     exit;
     }
@@ -41,25 +42,26 @@ elseif (isset($_POST['altbd']))
 
   if (empty($nome_limpo) || empty($senha_limpa))
     {
-    $_SESSION['mensagem'] = "Alteração não realizada. Os campos são obrigatórios";
+    $_SESSION['mensagem_alerta'] = "Alteração não realizada. Os campos são obrigatórios";
     header('Location: ../paginas/sistema/usuarios.php?tipo=');
     exit;
     }
   
   $nome = mysqli_escape_string($conexao, $nome_limpo);
-  $senha = password_hash($senha_limpa, PASSWORD_DEFAULT);//verificar se vou utilizar hash ou não, sistema de validação de login não esta usando
+  $senha = password_hash($senha_limpa, PASSWORD_DEFAULT);
+
   $consulta = "UPDATE tb_usuario SET nome_usu = '$nome', senha_usu = '$senha' WHERE id_usu = '$cod'";
   mysqli_query($conexao, $consulta);
   
   if (mysqli_affected_rows($conexao) > 0 ) 
     {
-    $_SESSION['mensagem'] = 'Usuário alterado com sucesso';
+    $_SESSION['mensagem_sucesso'] = 'Usuário alterado com sucesso';
     header('Location: ../paginas/sistema/usuarios.php');
     exit;
     } 
   else 
     {
-    $_SESSION['mensagem'] = 'erro de execução alt';
+    $_SESSION['mensagem_erro'] = 'erro de execução alt';
     header('Location: ../paginas/sistema/usuarios.php');
     exit;
     }
@@ -72,13 +74,13 @@ elseif (isset($_POST['excluir']))
 
     if (mysqli_affected_rows($conexao) > 0 ) 
       {
-      $_SESSION['mensagem'] = 'Usuário excluido com sucesso';
+      $_SESSION['mensagem_sucesso'] = 'Usuário excluido com sucesso';
       header('Location: ../paginas/sistema/usuarios.php');
       exit;
       } 
     else 
       {
-      $_SESSION['mensagem'] = 'erro de execução exclusao';
+      $_SESSION['mensagem_erro'] = 'erro de execução exclusao';
       header('Location: ../paginas/sistema/usuarios.php');
       exit;
       }

@@ -1,5 +1,7 @@
 <?php
+session_start();
 require '../CRUDphp/classes/conexao.php';
+include '../CRUDphp/acoes/mensagem.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -15,7 +17,7 @@ require '../CRUDphp/classes/conexao.php';
   <div class="d-flex justify-content-center align-items-center vh-100">
     <div class="col-10 col-md-6 col-lg-4">
       <form action="../CRUDphp/acoes/login.php"  method="POST">
-        <h2 class="text-center mb-4">Nome do sistema</h2> 
+        <h2 class="text-center mb-4">Nome do sistema</h2>
         <div class="row mb-3">
           <label for="nome" class="col-sm-12 col-form-label">Usuário</label>
           <div class="col-sm-12">
