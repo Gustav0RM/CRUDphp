@@ -17,17 +17,17 @@ include '../CRUDphp/acoes/mensagem.php';
   <div class="d-flex justify-content-center align-items-center vh-100">
     <div class="col-10 col-md-6 col-lg-4">
       <form action="../CRUDphp/acoes/login.php"  method="POST">
-        <h2 class="text-center mb-4">Nome do sistema</h2>
+        <h2 class="text-center mb-4">Nome do sistema</h2> 
         <div class="row mb-3">
-          <label for="nome" class="col-sm-12 col-form-label">Usuário</label>
+          <label for="nomelogin" class="col-sm-12 col-form-label">Usuário</label>
           <div class="col-sm-12">
             <input type="text" name="nomelogin" class="form-control" placeholder="seu nome">
           </div>
         </div>
         <div class="row mb-3">
-          <label for="inputPassword3" class="col-sm-12 col-form-label">Senha</label>
+          <label for="senhalogin" class="col-sm-12 col-form-label">Senha</label>
           <div class="col-sm-12">
-            <input type="password" name="senhalogin" class="form-control" id="inputPassword3" placeholder="Sua senha">
+            <input type="password" name="senhalogin" class="form-control" id="senhalogin" placeholder="Sua senha">
           </div>
         </div>
         <button type="submit" name="entrar">Entrar</button>

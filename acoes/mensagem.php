@@ -1,4 +1,4 @@
-<?php 
+<? 
 if (isset($_SESSION['mensagem_sucesso'])) 
   { ?>
   <div class="alert alert-success alert-dismissible fade show" role="alert"> 
@@ -24,15 +24,5 @@ if (isset($_SESSION['mensagem_sucesso']))
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div> <?php
   unset($_SESSION['mensagem_erro']); 
-  }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  ?>
+  } 
+?>
