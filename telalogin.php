@@ -30,7 +30,7 @@ include '../CRUDphp/acoes/mensagem.php';
             <input type="password" name="senhalogin" class="form-control" id="senhalogin" placeholder="Sua senha">
           </div>
         </div>
-        <button type="submit" name="entrar">Entrar</button>
+        <button class="btn btn-dark" type="submit" name="entrar">Entrar</button>
       </form>
     </div>
   </div>

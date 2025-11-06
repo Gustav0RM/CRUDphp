@@ -11,7 +11,7 @@ session_start();
   if (empty($nome) || empty($senha))
     {
     $_SESSION['mensagem_alerta'] = "Insira o nome e a senha";
-    header('Location: ../index.php');
+    header('Location: ../telalogin.php');
     exit;
     }
     
@@ -30,23 +30,22 @@ session_start();
       {
       $_SESSION['usuario_id'] = $dados_usu['id_usu']; 
       $_SESSION['usuario_nome'] = $dados_usu['nome_usu'];
-      header('Location: ../paginas/sistema/usuarios.php');
+      header('Location: ../telainicial.php');
       $_SESSION['mensagem_sucesso'] = 'Login realizado com sucesso. Bem vindo ' . $_SESSION['usuario_nome'];
       exit;
       }
     else 
       {
       $_SESSION['mensagem_alerta'] = 'Usuario ou senha incorretos';
-      header('Location: ../index.php');
+      header('Location: ../telalogin.php');
       exit;
       }
-    
     }
   else 
     {
     // FALHA NO LOGIN
     $_SESSION['mensagem_alerta'] = 'Verifique seus dados novamente';
-    header('Location: ../index.php');
+    header('Location: ../login.php');
     exit;
     }
   }

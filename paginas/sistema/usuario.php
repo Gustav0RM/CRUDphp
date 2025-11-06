@@ -13,18 +13,18 @@ $cod = isset($_GET['cod']) ? addslashes($_GET['cod']) : null ?>
   <link rel="stylesheet" href="../../style.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"> 
-  <script src="../../geral/funcoes.js"></script>
+
+  <script src="usuario.js"></script>
   <title><?=$titulo?></title>
   </head>
+
   <body> <?
       include_once('../../geral/cabecalho.php');
       if ($tipo === null)
-        { 
-        var_dump(getcwd());
-        include('../../acoes/mensagem.php'); ?>
+        { ?>
         <label class="text-end col-md-12"  for="logado"><?=$_SESSION['usuario_nome']?></label>
         <div class="container mt-4">
-          <a class="text-decoration-none text-black" href="../sistema/usuarios.php?tipo=cad"> 
+          <a class="text-decoration-none text-black" href="../sistema/usuario.php?tipo=cad"> 
             <i class="bi bi-person-add fs-5 text-success"></i>
             Cadastrar usuário
           </a>
@@ -52,7 +52,7 @@ $cod = isset($_GET['cod']) ? addslashes($_GET['cod']) : null ?>
                           { ?>
                           <tr>
                             <td class="text-center">
-                              <a class="text-decoration-none" href="../sistema/usuarios.php?tipo=alt&cod=<?=$dados_usuario['id_usu']?>">
+                              <a class="text-decoration-none" href="../sistema/usuario.php?tipo=alt&cod=<?=$dados_usuario['id_usu']?>">
                                 <i class="bi bi-person-gear text-warning fs-5"></i>
                               </a>
                             </td>
@@ -78,7 +78,7 @@ $cod = isset($_GET['cod']) ? addslashes($_GET['cod']) : null ?>
        
       <label class="text-end col-md-12"  for="logado"><?=$_SESSION['usuario_nome']?></label>     
       <div class="container mt-4 ms-0 col-4">
-        <a class="text-decoration-none text-black" href="../sistema/usuarios.php"> 
+        <a class="text-decoration-none text-black" href="../sistema/usuario.php"> 
             <i class="bi bi-reply fs-5 text-danger"></i>
             Voltar
           </a>
@@ -89,7 +89,7 @@ $cod = isset($_GET['cod']) ? addslashes($_GET['cod']) : null ?>
                 <h2><?=$titulo?></h2>
               </div>
               <div class="card-body">
-                <form action="../../acoes/salvar.php?cod=<?=$cod?>" method="POST" class="bg-light">
+                <form action="" method="POST" name="form" class="bg-light">
                   <div class="row mb-2">
                     
                     <label for="nome" class="col-sm-auto col-form-label text-black">Nome</label>
@@ -104,17 +104,15 @@ $cod = isset($_GET['cod']) ? addslashes($_GET['cod']) : null ?>
                   </div>
                   </div>
                   <div class="row">
-                    <div class="col">
-                      <button class="col-2" type="submit" name="<?=($tipo === "cad" ? 'cadbd' : 'altbd')?>"
+                    <div class="col-md-3">
+                      <button class="btn btn-success" type="button" onclick="confirma_alt_cad('<?=$tipo?>', '<?=$cod?>');" name="<?=($tipo === "cad" ? 'cadbd' : 'altbd')?>"
                       ><?=($tipo === "cad" ? 'Cadastrar' : 'Alterar')?></button>
                     </div><?
 
                     if ($tipo === 'alt')
                       { ?>
-                      <div class="col">
-                        <form action="../../acoes/salvar.php?cod=<?=$cod?>" method="POST">
-                          <button class="bg-danger col-2" type="submit" onclick="return confirm('Deseja excluir este usuário?')"  name="excluir">Excluir</button>
-                      </form>
+                      <div class="col-md-3">
+                        <button class="btn btn-danger" type="button" onclick="confirma_excluir('<?=$cod?>');"  name="excluir">Excluir</button>
                     </div> <?
                       } ?>
                   </div>
@@ -124,7 +122,92 @@ $cod = isset($_GET['cod']) ? addslashes($_GET['cod']) : null ?>
           </div>
         </div>
       </div> <?
-      } ?>
+      }
+    else if ($tipo == 'cadbd' || $tipo == 'altbd')
+      {
+      //cadastro
+      $nome_limpo = isset($_POST['nome']) ? trim($_POST['nome']) : ''; //retira espaços dos campos para salvar
+      $senha_limpa = isset($_POST['senha']) ? trim($_POST['senha']) : ''; //retira espaços dos campos para salvar
+
+      if (empty($nome_limpo) || empty($senha_limpa))
+        {
+        $_SESSION['mensagem_alerta'] = "CADASTRO NAO REALIZADO. Os campos nome e senha são obrigatórios";
+        header('Location: ../paginas/sistema/usuario.php?tipo=');
+        exit;
+        }
+      
+      $nome = mysqli_escape_string($conexao, $nome_limpo); 
+      $senha = password_hash($senha_limpa, PASSWORD_DEFAULT);
+
+      $sql = "INSERT INTO tb_usuario (nome_usu,senha_usu) VALUES ('$nome', '$senha')";
+      mysqli_query($conexao, $sql);
+
+      if (mysqli_affected_rows($conexao) > 0 ) 
+        {
+        $_SESSION['mensagem_sucesso'] = 'Usuário criado com sucesso';
+        header('Location: ../paginas/sistema/usuario.php');
+        exit;
+        } 
+      else 
+        {
+        $_SESSION['mensagem_erro'] = 'erro de execução';
+        header('Location: ../paginas/sistema/usuario.php');
+        exit;
+        }
+      //cadastro
+
+      //alteração
+      $cod = addslashes($_GET['cod']);
+      $nome_limpo = trim($_POST['nome']);
+      $senha_limpa = trim($_POST['senha']);
+
+      if (empty($nome_limpo) || empty($senha_limpa))
+        {
+        $_SESSION['mensagem_alerta'] = "Alteração não realizada. Os campos são obrigatórios";
+        header('Location: ../paginas/sistema/usuario.php?tipo=');
+        exit;
+        }
+      
+      $nome = mysqli_escape_string($conexao, $nome_limpo);
+      $senha = password_hash($senha_limpa, PASSWORD_DEFAULT);
+
+      $consulta = "UPDATE tb_usuario SET nome_usu = '$nome', senha_usu = '$senha' WHERE id_usu = '$cod'";
+      mysqli_query($conexao, $consulta);
+      
+      if (mysqli_affected_rows($conexao) > 0 ) 
+        {
+        $_SESSION['mensagem_sucesso'] = 'Usuário alterado com sucesso';
+        header('Location: ../paginas/sistema/usuario.php');
+        exit;
+        } 
+      else 
+        {
+        $_SESSION['mensagem_erro'] = 'erro de execução alt';
+        header('Location: ../paginas/sistema/usuario.php');
+        exit;
+        }
+      //alteração
+      }
+    elseif ($tipo == 'excluirbd')
+      {
+      $cod = addslashes($_GET['cod']);
+      $consulta_excluir = "DELETE FROM tb_usuario WHERE id_usu = '$cod'";
+      mysqli_query($conexao, $consulta_excluir);
+
+      if (mysqli_affected_rows($conexao) > 0 ) 
+        {
+        $_SESSION['mensagem_sucesso'] = 'Usuário excluido com sucesso';
+        header('Location: ../paginas/sistema/usuario.php');
+        exit;
+        } 
+      else 
+        {
+        $_SESSION['mensagem_erro'] = 'erro de execução exclusao';
+        header('Location: ../paginas/sistema/usuario.php');
+        exit;
+        }
+      }  ?>
+
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">        
       </script>
     </body> 
