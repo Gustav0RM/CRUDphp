@@ -1,9 +1,10 @@
 <?
 session_start(); 
+include_once('../../acoes/mensagem.php');
 include_once('../../classes/conexao.php');
 $tipo = isset($_GET['tipo']) ? strtolower($_GET['tipo']) : null;
 $titulo = ($tipo === "cad" ? "Cadastrar" : ($tipo === "alt" ? "Editar" : "Buscar")) . " Usuário";
-$cod = isset($_GET['cod']) ? addslashes($_GET['cod']) : null ?>
+$cod = isset($_GET['cod']) ? ($_GET['cod']) : null ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -131,79 +132,78 @@ $cod = isset($_GET['cod']) ? addslashes($_GET['cod']) : null ?>
 
       if (empty($nome_limpo) || empty($senha_limpa))
         {
-        $_SESSION['mensagem_alerta'] = "CADASTRO NAO REALIZADO. Os campos nome e senha são obrigatórios";
-        header('Location: ../paginas/sistema/usuario.php?tipo=');
-        exit;
+        if ($tipo == 'cadbd')
+          {
+          $_SESSION['mensagem_alerta'] = "CADASTRO NAO REALIZADO. Os campos nome e senha são obrigatórios";
+          header('Location: /CRUDphp/paginas/sistema/usuario.php?tipo=' . $tipo);
+          exit;
+          }
+        else
+          {
+          $_SESSION['mensagem_alerta'] = "Alteração não realizada. Os campos são obrigatórios";
+          header('Location: /CRUDphp/paginas/sistema/usuario.php?tipo=' . $tipo . '&cod=' . $cod);
+          exit;
+          }
         }
       
       $nome = mysqli_escape_string($conexao, $nome_limpo); 
       $senha = password_hash($senha_limpa, PASSWORD_DEFAULT);
 
-      $sql = "INSERT INTO tb_usuario (nome_usu,senha_usu) VALUES ('$nome', '$senha')";
-      mysqli_query($conexao, $sql);
+      if ($tipo == 'cadbd')
+        {
+        $sql = "INSERT INTO tb_usuario (nome_usu,senha_usu) VALUES ('$nome', '$senha')";
+        mysqli_query($conexao, $sql);
 
-      if (mysqli_affected_rows($conexao) > 0 ) 
-        {
-        $_SESSION['mensagem_sucesso'] = 'Usuário criado com sucesso';
-        header('Location: ../paginas/sistema/usuario.php');
-        exit;
-        } 
-      else 
-        {
-        $_SESSION['mensagem_erro'] = 'erro de execução';
-        header('Location: ../paginas/sistema/usuario.php');
-        exit;
+        if (mysqli_affected_rows($conexao) > 0 ) 
+          {
+          $_SESSION['mensagem_sucesso'] = 'Usuário criado com sucesso';
+          header('Location: /CRUDphp/paginas/sistema/usuario.php');
+          exit;
+          } 
+        else 
+          {
+          $_SESSION['mensagem_erro'] = 'erro de execução';
+          header('Location: /CRUDphp/paginas/sistema/usuario.php');
+          exit;
+          }
+        //cadastro
         }
-      //cadastro
-
-      //alteração
-      $cod = addslashes($_GET['cod']);
-      $nome_limpo = trim($_POST['nome']);
-      $senha_limpa = trim($_POST['senha']);
-
-      if (empty($nome_limpo) || empty($senha_limpa))
+      else
         {
-        $_SESSION['mensagem_alerta'] = "Alteração não realizada. Os campos são obrigatórios";
-        header('Location: ../paginas/sistema/usuario.php?tipo=');
-        exit;
+        //alteração
+        $consulta = "UPDATE tb_usuario SET nome_usu = '$nome', senha_usu = '$senha' WHERE id_usu = '$cod'";
+        mysqli_query($conexao, $consulta);
+        
+        if (mysqli_affected_rows($conexao) > 0 ) 
+          {
+          $_SESSION['mensagem_sucesso'] = 'Usuário alterado com sucesso';
+          header('Location: /CRUDphp/paginas/sistema/usuario.php');
+          exit;
+          } 
+        else 
+          {
+          $_SESSION['mensagem_erro'] = 'erro de execução alt';
+          header('Location: /CRUDphp/paginas/sistema/usuario.php');
+          exit;
+          }
+        //alteração
         }
-      
-      $nome = mysqli_escape_string($conexao, $nome_limpo);
-      $senha = password_hash($senha_limpa, PASSWORD_DEFAULT);
-
-      $consulta = "UPDATE tb_usuario SET nome_usu = '$nome', senha_usu = '$senha' WHERE id_usu = '$cod'";
-      mysqli_query($conexao, $consulta);
-      
-      if (mysqli_affected_rows($conexao) > 0 ) 
-        {
-        $_SESSION['mensagem_sucesso'] = 'Usuário alterado com sucesso';
-        header('Location: ../paginas/sistema/usuario.php');
-        exit;
-        } 
-      else 
-        {
-        $_SESSION['mensagem_erro'] = 'erro de execução alt';
-        header('Location: ../paginas/sistema/usuario.php');
-        exit;
-        }
-      //alteração
       }
     elseif ($tipo == 'excluirbd')
       {
-      $cod = addslashes($_GET['cod']);
       $consulta_excluir = "DELETE FROM tb_usuario WHERE id_usu = '$cod'";
       mysqli_query($conexao, $consulta_excluir);
 
       if (mysqli_affected_rows($conexao) > 0 ) 
         {
         $_SESSION['mensagem_sucesso'] = 'Usuário excluido com sucesso';
-        header('Location: ../paginas/sistema/usuario.php');
+        header('Location: /CRUDphp/paginas/sistema/usuario.php');
         exit;
         } 
       else 
         {
         $_SESSION['mensagem_erro'] = 'erro de execução exclusao';
-        header('Location: ../paginas/sistema/usuario.php');
+        header('Location: /CRUDphp/paginas/sistema/usuario.php');
         exit;
         }
       }  ?>
