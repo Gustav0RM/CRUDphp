@@ -1,16 +1,16 @@
 <script>
   //script para fechar as mensagens automaticamente
-    setTimeout(() => 
+    setTimeout(() =>
     {
-    document.querySelectorAll('.toast').forEach(toastEl => 
+    document.querySelectorAll('.toast').forEach(toastEl =>
       {
       const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
       toast.hide();
       });
     }, 3000);
-</script> <? 
-
-if (isset($_SESSION['mensagem_sucesso'])) 
+</script>
+ <?
+if (isset($_SESSION['mensagem_sucesso']))
   { ?>
   <div class="toast-container position-fixed top-0 end-0 p-3">
     <div class="toast show bg-success">
@@ -23,10 +23,10 @@ if (isset($_SESSION['mensagem_sucesso']))
       </div>
     </div>
   </div> <?
-  unset($_SESSION['mensagem_sucesso']); 
+  unset($_SESSION['mensagem_sucesso']);
   }
 
-  if (isset($_SESSION['mensagem_alerta'])) 
+  if (isset($_SESSION['mensagem_alerta']))
   { ?>
   <div class="toast-container position-fixed top-0 end-0 p-3">
     <div class="toast show bg-warning">
@@ -42,7 +42,7 @@ if (isset($_SESSION['mensagem_sucesso']))
   unset($_SESSION['mensagem_alerta']);
   }
 
-  if (isset($_SESSION['mensagem_erro'])) 
+  if (isset($_SESSION['mensagem_erro']))
   { ?>
   <div class="toast-container position-fixed top-0 end-0 p-3">
     <div class="toast show bg-danger">
@@ -55,6 +55,6 @@ if (isset($_SESSION['mensagem_sucesso']))
       </div>
     </div>
   </div> <?
-  unset($_SESSION['mensagem_erro']); 
-  } 
-?>
+  unset($_SESSION['mensagem_erro']);
+  } ?>
+

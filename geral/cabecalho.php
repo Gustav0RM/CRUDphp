@@ -1,5 +1,6 @@
 
-<nav class="navbar navbar-expand-lg" id="navegacao" >
+
+<nav class="navbar navbar-expand-lg" id="navegacao">
     <a class="navbar-brand text-white" href="/CRUDphp/telainicial.php">Meu Site</a> <!-- botao pagina inicial -->
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
